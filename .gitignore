@@ -1,0 +1,14 @@
+
+# Public and private keys
+id_rsa*
+
+# Terraform files
+**/terraform/**/.terraform*
+terraform.tfstate*
+
+# IDE files
+.idea
+
+# .NET built artifacts
+**/bin
+**/obj
