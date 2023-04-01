@@ -1,4 +1,8 @@
+## About
 
+Create an Azure VM using Terraform.
+
+## Notes
 
 To get VM sizes available in a region: az vm list-sizes --location "australiaeast"
 

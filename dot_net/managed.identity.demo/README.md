@@ -1,3 +1,9 @@
+## About
+
+Example of using a managed identity.  Demonstrates authenticating an application running on a VM to a storage account.
+
+## Notes
+
 
 To run this demo on managed identities on a VM will need to assign a managed identity to the VM either at creation or afterwards by doing:
 
