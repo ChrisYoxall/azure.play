@@ -47,6 +47,10 @@ Supply keys as either a 'code' value in query string or 'x-functions-key' HTTP h
 
 Can get keys for function app by doing: func azure functionapp list-functions [FUNCTION_APP_NAME] --show-keys
 
+For example, a function application called 'chris-demo-fa' with a function called 'azurefule' with the 'AuthorizationLevel' of 'Function' could be called by doing:
+
+    https://chris-demo-fa.azurewebsites.net/api/azurefile?code=XeViiyWC3RkUFRHgwli0cx3Kdu9DC71UzduZycdy6zzsAzFuKHt4qQ==
+
 
 
 
