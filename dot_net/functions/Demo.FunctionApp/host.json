@@ -1,0 +1,33 @@
+{
+    "version": "2.0",
+    "logging": {
+        "applicationInsights": {
+            "samplingSettings": {
+                "isEnabled": true,
+                "excludedTypes": "Request"
+            }
+        }
+    },
+    "extensions": {
+        "eventHubs": {
+            "maxEventBatchSize" : 10,
+            "targetUnprocessedEventThreshold" : 75,
+            "batchCheckpointFrequency" : 1,
+            "prefetchCount" : 300,
+            "transportType" : "amqpWebSockets",
+            "webProxy" : "",
+            "customEndpointAddress" : "",
+            "initialOffsetOptions" : {
+                "type" : "fromStart",
+                "enqueuedTimeUtc" : ""
+            },
+            "clientRetryOptions":{
+                "mode" : "exponential",
+                "tryTimeout" : "00:01:00",
+                "delay" : "00:00:00.80",
+                "maxDelay" : "00:01:00",
+                "maxRetries" : 3
+            }
+        }
+    }
+}
