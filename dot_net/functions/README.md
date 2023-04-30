@@ -22,6 +22,19 @@ bindings as needed. Bindings are optional and a function might have one or multi
 Triggers and bindings let you avoid hardcoding access to other services.
 
 
+## Deployment
+
+Can deploy using the AZ CLI, for example refer to this Jenkins example: https://learn.microsoft.com/en-us/azure/developer/jenkins/deploy-to-azure-functions
+
+Can also use the 'Azure Functions Core Tools'. For example:
+
+    func azure functionapp publish chris-test-function (from proj folder)
+
+The function will be available at the URL:
+
+    http://FUNC_APP_NAME.azurewebsites.net/api/FUNC_NAME
+
+
 ## Function Authentication
 
 Controlled by AuthorizationLevel. Refer:
@@ -51,16 +64,6 @@ For example, a function application called 'chris-demo-fa' with a function calle
 
     https://chris-demo-fa.azurewebsites.net/api/azurefile?code=XeViiyWC3RkUFRHgwli0cx3Kdu9DC71UzduZycdy6zzsAzFuKHt4qQ==
 
-
-
-
-## Deployment
-
-Can deploy using the AZ CLI, for example refer to this Jenkins example: https://learn.microsoft.com/en-us/azure/developer/jenkins/deploy-to-azure-functions
-
-Can also use the 'Azure Functions Core Tools'. For example:
-
-    func azure functionapp publish chris-test-function (from proj folder)
 
 
 ## RBAC - Managed Identity
