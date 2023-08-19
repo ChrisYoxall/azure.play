@@ -30,7 +30,7 @@ Note how the code uses 'FUNCTIONS_CUSTOMHANDLER_PORT' which holds the port value
 
 
 Build the Go app. It needs to be built to run on the same OS as the function host. Note that I had an issue when deploying to Azure as my
-as my local glibc was ahead of the one on the host. To resolve did a build with cgo disabled:
+local glibc was ahead of the one on the host. To resolve did a build with cgo disabled:
 
     GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-w -s" -o app
 
