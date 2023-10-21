@@ -12,3 +12,8 @@ variable "resource_group_name" {
   type        = string
   description = "Name of the resource group"
 }
+
+variable "containername" {
+  type        = string
+  description = "Name of storage container"
+}

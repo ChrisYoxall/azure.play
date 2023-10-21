@@ -17,4 +17,7 @@ module "storage_account" {
 
   saname   = var.saname
   location = var.location
+
+  containername = "mycontainer"
+
 }

@@ -10,9 +10,14 @@ variable "rgname" {
   default     = "sa-demo-rg"
 }
 
-
 variable "saname" {
   type        = string
   description = "Name of storage account"
   default     = "yoxalltfdemosa"
+}
+
+variable "containername" {
+  type        = string
+  description = "Name of storage container"
+  default     = "tfcontainer"
 }
