@@ -3,3 +3,8 @@ output "primary_access_keys" {
   value       = module.storage_account.primary_access_keys
   sensitive   = true
 }
+
+output "containers_debug" {
+  description = "The containers for the storage account. Use to debug."
+  value       = module.storage_account.containers
+}
