@@ -4,18 +4,18 @@ terraform {
 
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
+      version = "3.6.0"
     }
 
 
     http = {
       source  = "hashicorp/http"
-      version = "3.4.0"
+      version = "3.4.1"
     }
 
     dns = {
       source  = "hashicorp/dns"
-      version = "3.3.2"
+      version = "3.4.0"
     }
 
   }
