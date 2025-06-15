@@ -1,5 +1,6 @@
 @url = http://localhost:5162
 @docker_url = http://localhost:8080
+@aca_url = https://demo-container-app.delightfulplant-c018886b.australiaeast.azurecontainerapps.io
 
 ### View OpenApi doc
 GET {{url}}/openapi/v1.json
@@ -7,34 +8,13 @@ Accept: application/json
 ###
 
 
-### Endpionts when running directly
+### Test endpionts
 
-GET {{url}}/demo/cosmosdb
+GET {{aca_url}}/demo/cosmosdb
 ###
 
-GET {{url}}/demo/eventgrid
+GET {{aca_url}}/demo/eventgrid
 ###
 
-
-### OLD STUFF ###
-### Endpionts when running directly
-
-GET {{url}}/weatherforecast
+GET {{aca_url}}/demo/blobstorage
 ###
-
-GET {{url}}/weatherforecast/city/Palmerston North
-###
-
-GET {{url}}/GitHubUser/validate/chrisyoxall
-###
-
-GET {{url}}/health
-###
-
-
-### Endpoints when running in Docker ###
-
-GET {{docker_url}}/weatherforecast
-###
-
-GET {{docker_url}}/health

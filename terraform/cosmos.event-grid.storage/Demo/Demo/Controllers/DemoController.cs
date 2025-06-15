@@ -12,12 +12,14 @@ public class DemoController : ControllerBase
     private readonly ILogger _logger;
     private readonly ICosmosDbService _cosmosDbService;
     private readonly IEventGridService _eventGridService;
+    private readonly IBlobStorageService _blobStorageService;
 
-    public DemoController(ILogger logger, ICosmosDbService cosmosDbService, IEventGridService eventGridService)
+    public DemoController(ILogger logger, ICosmosDbService cosmosDbService, IEventGridService eventGridService, IBlobStorageService blobStorageService)
     {
         _logger = logger.ForContext<DemoController>();
         _cosmosDbService = cosmosDbService;
         _eventGridService = eventGridService;
+        _blobStorageService = blobStorageService;
     }
 
     [HttpGet("cosmosdb")]
@@ -76,6 +78,32 @@ public class DemoController : ControllerBase
         {
             _logger.Error(ex, "Error publishing event to EventGrid");
             return StatusCode(500, new { Error = "Failed to publish event to EventGrid", Message = ex.Message });
+        }
+    }
+
+    [HttpGet("blobstorage")]
+    public async Task<IActionResult> BlobStorage()
+    {
+        try
+        {
+            // Create a demo blob document
+            var demoBlobDocument = new DemoBlobDocument
+            {
+                Name = $"Demo Blob Document {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}"
+            };
+
+            // Upload the document to Blob Storage, then read it back
+            var blobId = await _blobStorageService.UploadDocumentAsync(demoBlobDocument);
+            var documentContent = await _blobStorageService.GetDocumentContentAsync(blobId);
+
+            _logger.Information("Document created and read successfully from blob storage");
+
+            return Ok(new { Message = "Document created and read successfully from blob storage", BlobId = blobId, Content = documentContent });
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error creating document in Blob Storage");
+            return StatusCode(500, new { Error = "Failed to create document in Blob Storage", Message = ex.Message });
         }
     }
 }

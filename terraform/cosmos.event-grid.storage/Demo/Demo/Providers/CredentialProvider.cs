@@ -11,18 +11,34 @@ public interface ICredentialProvider
 public class CredentialProvider : ICredentialProvider
 {
     private readonly bool _isProd;
+    private readonly string? _clientId;
 
     public CredentialProvider()
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        if (string.IsNullOrEmpty(environment))
+        {
+            throw new Exception("ASPNETCORE_ENVIRONMENT environment variable not set");
+        }
         _isProd = environment == "Production";
+        
+        _clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
+        if (_isProd && string.IsNullOrEmpty(_clientId))
+        {
+            throw new Exception("AZURE_CLIENT_ID environment variable not set");
+        }
+    }
+
+    public CredentialProvider(string clientId)
+    {
+        _clientId = clientId;
     }
 
     public TokenCredential GetCredential()
     {
         if (_isProd)
         {
-            return new ManagedIdentityCredential();
+            return new ManagedIdentityCredential(clientId: _clientId);
         }
 
         // You can also create a credential that excludes the credential types that you don't want to use. This is

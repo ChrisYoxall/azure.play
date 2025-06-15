@@ -47,6 +47,9 @@ void AddServices(WebApplicationBuilder builder)
     const string eventGridSettingsKey = "EventGridTopic";
     AddEventGridServices(builder, eventGridSettingsKey);
     
+    const string blobStorageSettingsKey = "BlobStorage";
+    AddBlobStorageServices(builder, blobStorageSettingsKey);
+
 }
 
 void AddCosmosDbServices(WebApplicationBuilder builder, string cosmosSettingsKey)
@@ -71,6 +74,18 @@ void AddEventGridServices(WebApplicationBuilder builder, string eventGridSetting
     builder.Services.AddSingleton(settings);
     builder.Services.AddSingleton<IEventGridProvider, EventGridProvider>();
     builder.Services.AddScoped<IEventGridService, EventGridService>();
+}
+
+void AddBlobStorageServices(WebApplicationBuilder builder, string blobStorageSettingsKey)
+{
+    var settings = builder.Configuration.GetRequiredSection(blobStorageSettingsKey).Get<BlobStorageSettings>();
+    if (settings == null)
+    {
+        throw new ArgumentNullException(nameof(blobStorageSettingsKey), "BlobStorage settings not found");
+    }
+    builder.Services.AddSingleton(settings);
+    builder.Services.AddSingleton<IBlobStorageProvider, BlobStorageProvider>();
+    builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 }
 
 // Configure the HTTP request pipeline

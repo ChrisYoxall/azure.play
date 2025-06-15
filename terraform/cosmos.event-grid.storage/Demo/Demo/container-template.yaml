@@ -1,0 +1,33 @@
+type: Microsoft.App/containerApps
+kind: containerApps
+properties:
+  workloadProfileName: Consumption
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      allowInsecure: false
+      external: true
+      targetPort: 8080
+      transport: Auto
+    maxInactiveRevisions: 1
+    secrets: null
+    service: null
+  template:
+    containers:
+      - image: yoxalldemoacr.azurecr.io/aca-demo:0.1.0
+        name: demo-app
+        probes: []
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: AZURE_CLIENT_ID
+            value: 980b6a6f-e26b-4482-b5e5-4286b365e273
+        resources:
+          cpu: 0.25
+          ephemeralStorage: 500Mi
+          memory: 0.5Gi
+    revisionSuffix: '0-1-0'
+    scale:
+      maxReplicas: 2
+      minReplicas: 0
+    volumes: []
