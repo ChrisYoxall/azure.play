@@ -12,6 +12,8 @@ Container Apps Environments determine the functionality and billing. Can run eit
 
 A Container App Environment must run in a VNet, but by default this is an automatically generated Azure one. See https://learn.microsoft.com/en-us/azure/container-apps/networking
 
+Availability Zones: https://learn.microsoft.com/en-us/azure/reliability/reliability-azure-container-apps
+
 
 
 ## Terraform ##
