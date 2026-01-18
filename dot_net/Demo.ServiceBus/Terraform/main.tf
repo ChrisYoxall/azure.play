@@ -22,6 +22,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+# Create service bus, topic & subscription
 resource "azurerm_servicebus_namespace" "sb" {
   name                = "yox-demo-servicebus"
   location            = azurerm_resource_group.rg.location
@@ -40,10 +41,15 @@ resource "azurerm_servicebus_subscription" "demo_topic_subcription" {
   max_delivery_count = 1
 }
 
-resource "azurerm_servicebus_topic_authorization_rule" "demo_topic_writer_rule" {
-  name     = "writer-access"
-  topic_id = azurerm_servicebus_topic.demo_topic.id
-  listen   = false
-  send     = true
-  manage   = false
+# Create a managed identity
+resource "azurerm_user_assigned_identity" "sb_writer" {
+  location            = azurerm_resource_group.rg.location
+  name                = "servicebus-writer-identity"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_role_assignment" "sb_writer_sender" {
+  scope                = azurerm_servicebus_topic.demo_topic.id
+  role_definition_name = "Azure Service Bus Data Sender"
+  principal_id         = azurerm_user_assigned_identity.sb_writer.principal_id
 }

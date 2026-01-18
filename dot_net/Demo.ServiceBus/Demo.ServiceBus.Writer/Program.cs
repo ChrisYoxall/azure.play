@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Azure.Messaging.ServiceBus;
 using Demo.ServiceBus.Settings;
 using Microsoft.Extensions.Options;
@@ -37,28 +38,17 @@ public static class Program
         builder.Services.AddOptions<ServiceBusSettings>()
             .BindConfiguration(ServiceBusSettings.SectionName)
             .ValidateDataAnnotations()
-            .Validate(settings =>
-            {
-                try
-                {
-                    ServiceBusConnectionStringProperties.Parse(settings.ConnectionString);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }, "The provided Service Bus connection string is invalid.")
+            .Validate(settings => 
+                    !string.IsNullOrWhiteSpace(settings.Namespace) && Uri.CheckHostName(settings.Namespace) != UriHostNameType.Unknown, 
+                "The provided Service Bus Namespace is invalid.")
             .ValidateOnStart();
 
-        // Singleton ServiceBusClient to avoid recreating the client for each request
         builder.Services.AddSingleton(sp =>
         {
             var settings = sp.GetRequiredService<IOptions<ServiceBusSettings>>().Value;
-            return new ServiceBusClient(settings.ConnectionString);
+            return new ServiceBusClient(settings.Namespace, new DefaultAzureCredential());
         });
 
-        // Singleton sender to avoid the overhead of establishing a new AMQP link for every message.
         builder.Services.AddSingleton(sp =>
         {
             var client = sp.GetRequiredService<ServiceBusClient>();
