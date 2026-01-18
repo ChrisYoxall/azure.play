@@ -51,10 +51,19 @@ public static class Program
             }, "The provided Service Bus connection string is invalid.")
             .ValidateOnStart();
 
+        // Singleton ServiceBusClient to avoid recreating the client for each request
         builder.Services.AddSingleton(sp =>
         {
             var settings = sp.GetRequiredService<IOptions<ServiceBusSettings>>().Value;
             return new ServiceBusClient(settings.ConnectionString);
+        });
+
+        // Singleton sender to avoid the overhead of establishing a new AMQP link for every message.
+        builder.Services.AddSingleton(sp =>
+        {
+            var client = sp.GetRequiredService<ServiceBusClient>();
+            var settings = sp.GetRequiredService<IOptions<ServiceBusSettings>>().Value;
+            return client.CreateSender(settings.TopicName);
         });
     }
 }

@@ -1,23 +1,16 @@
 using Azure.Messaging.ServiceBus;
-using Demo.ServiceBus.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace Demo.ServiceBus.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MessageController(ServiceBusClient client, IOptions<ServiceBusSettings> serviceBusSettings)
-    : ControllerBase
+public class MessageController(ServiceBusSender sender) : ControllerBase
 {
-    private readonly ServiceBusSettings _serviceBusSettings = serviceBusSettings.Value;
-
     [HttpGet("Send")]
     public async Task<IActionResult> SendMessage()
     {
         var messageBody = CreateMessage();
-
-        var sender = client.CreateSender(_serviceBusSettings.TopicName);
         var message = new ServiceBusMessage(messageBody);
 
         try
@@ -28,10 +21,6 @@ public class MessageController(ServiceBusClient client, IOptions<ServiceBusSetti
         catch (Exception ex)
         {
             return StatusCode(500, $"Error sending message: {ex.Message}");
-        }
-        finally
-        {
-            await sender.DisposeAsync();
         }
     }
 
